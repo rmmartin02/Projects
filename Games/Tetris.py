@@ -50,34 +50,70 @@ class TetrisBoard:
 			if letter == 'I':
 				self.orient1 = [[TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN)]]
 				self.orient2 = [[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)]]
-				self.orientation = 1
+				self.orientation = 0
+				self.x = 3
+				self.y = 0
 				self.orientations = [self.orient1, self.orient2]
 			if letter == 'J':
 				self.orient1 = [[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)],[None,None,TetrisBoard.Tile(BLUE)]]
 				self.orient2 = [[None, TetrisBoard.Tile(BLUE)],[None, TetrisBoard.Tile(BLUE)],[TetrisBoard.Tile(BLUE), TetrisBoard.Tile(BLUE)]]
 				self.orient3 = [[TetrisBoard.Tile(BLUE),None,None],[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)]]
 				self.orient4 = [[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)],[TetrisBoard.Tile(BLUE),None],[TetrisBoard.Tile(BLUE),None]]
+				self.orientation = 0
+				self.x = 3
+				self.y =0
+				self.orientations = [self.orient1, self.orient2, self.orient3, self.orient4]
 			if letter == 'O':
 				self.orient1 = [[TetrisBoard.Tile(YELLOW),TetrisBoard.Tile(YELLOW)],[TetrisBoard.Tile(YELLOW),TetrisBoard.Tile(YELLOW)]]
+				self.orientation = 0
+				self.x = 3
+				self.y = 0
+				self.orientations = [self.orient1]
 			if letter == 'L':
 				self.orient1 = [[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)],[TetrisBoard.Tile(ORANGE),None,None]]
 				self.orient2 = [[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)],[None,TetrisBoard.Tile(ORANGE)],[None,TetrisBoard.Tile(ORANGE)]]
 				self.orient3 = [[None,None,TetrisBoard.Tile(ORANGE)],[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)]]
 				self.orient4 = [[TetrisBoard.Tile(ORANGE),None],[TetrisBoard.Tile(ORANGE),None],[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)]]
+				self.orientation = 0
+				self.x = 3
+				self.y = 0
+				self.orientations = [self.orient1, self.orient2, self.orient3, self.orient4]
 			if letter == 'S':
 				self.orient1 = [[None,TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN)],[TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN),None]]
 				self.orient2 = [[TetrisBoard.Tile(GREEN),None],[TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN)],[None,TetrisBoard.Tile(GREEN)]]
+				self.orientation = 0
+				self.x = 3
+				self.y = 0
+				self.orientations = [self.orient1, self.orient2]
 			if letter == 'T':
 				self.orient1 = [[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],[None,TetrisBoard.Tile(PURPLE),None]]
 				self.orient2 = [[None,TetrisBoard.Tile(PURPLE)],[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],[None,TetrisBoard.Tile(PURPLE)]]
 				self.orient3 = [[None,TetrisBoard.Tile(PURPLE),None],[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)]]
 				self.orient4 = [[TetrisBoard.Tile(PURPLE),None],[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],[TetrisBoard.Tile(PURPLE),None]]
+				self.orientation = 0
+				self.x = 3
+				self.y = 0
+				self.orientations = [self.orient1, self.orient2, self.orient3, self.orient4]
 			if letter == 'Z':
 				self.orient1 = [[TetrisBoard.Tile(RED),TetrisBoard.Tile(RED),None],[None,TetrisBoard.Tile(RED),TetrisBoard.Tile(RED)]]
 				self.orient2 = [[None,TetrisBoard.Tile(RED)],[TetrisBoard.Tile(RED),TetrisBoard.Tile(RED)],[TetrisBoard.Tile(RED),None]]
+				self.orientation = 0
+				self.x = 3
+				self.y = 0
+				self.orientations = [self.orient1, self.orient2]
+			def updatePosition(orientation,x,y):
+				self.orientation = orientation
+				self.x = self.x + x
+				self.y = self.y + y
+				for row in self.orientations[self.orientation]:
+					for tile in row:
+						if tile is not None:
+							tile.x = self.x
+							tile.y = self.y
 		def drawTetrimino(self):
-			for tile in self.orientations[self.orientation]:
-				print('hi')
+			for row in self.orientations[self.orientation]:
+				for tile in row:
+				
 	def __init__(self):
 		self.score = 0
 		self.tiles = [[TetrisBoard.Tile(WHITE, (screen_width/2-150+1)+(i*30), 10+1+(j*30)) for i in range(10)] for j in range(20)]
