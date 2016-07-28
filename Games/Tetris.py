@@ -1,4 +1,5 @@
 import pygame
+import random
 pygame.init()
 
 BLACK = (0,0,0)
@@ -35,18 +36,16 @@ def drawBoard(top,left,height,width,s,color):
 	
 class TetrisBoard:
 	class Tile:
-		def __init__(self, color):
-			self.color = color
-			self.x = None
-			self.y = None
-		def __init__(self, color, x, y):
+		def __init__(self, color, x = None, y = None):
 			self.color = color
 			self.x = x
 			self.y = y
-		def drawTile(self):
-			pygame.draw.rect(screen,self.color,[self.x,self.y,28,28])
+		def draw(self):
+			pygame.draw.rect(screen,self.color,[(screen_width/2-150+1)+(self.x*30),10+1+(self.y*30),28,28])
 	class Tetrimino:
-		def __init__(self, letter):
+		def __init__(self):
+			letterList = ['I', 'J', 'O', 'L', 'S', 'T', 'Z']
+			letter = letterList[random.randint(0,len(letterList)-1)]
 			if letter == 'I':
 				self.orient1 = [[TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN)]]
 				self.orient2 = [[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)]]
@@ -54,6 +53,12 @@ class TetrisBoard:
 				self.x = 3
 				self.y = 0
 				self.orientations = [self.orient1, self.orient2]
+				for orientation in self.orientations:
+					for i in range(len(orientation)):
+						for j in range(len(orientation[i])):
+							if orientation[i][j] is not None:
+								orientation[i][j].x = self.x + i
+								orientation[i][j].y = self.y + j
 			if letter == 'J':
 				self.orient1 = [[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)],[None,None,TetrisBoard.Tile(BLUE)]]
 				self.orient2 = [[None, TetrisBoard.Tile(BLUE)],[None, TetrisBoard.Tile(BLUE)],[TetrisBoard.Tile(BLUE), TetrisBoard.Tile(BLUE)]]
@@ -63,12 +68,24 @@ class TetrisBoard:
 				self.x = 3
 				self.y =0
 				self.orientations = [self.orient1, self.orient2, self.orient3, self.orient4]
+				for orientation in self.orientations:
+					for i in range(len(orientation)):
+						for j in range(len(orientation[i])):
+							if orientation[i][j] is not None:
+								orientation[i][j].x = self.x + i
+								orientation[i][j].y = self.y + j
 			if letter == 'O':
 				self.orient1 = [[TetrisBoard.Tile(YELLOW),TetrisBoard.Tile(YELLOW)],[TetrisBoard.Tile(YELLOW),TetrisBoard.Tile(YELLOW)]]
 				self.orientation = 0
 				self.x = 3
 				self.y = 0
 				self.orientations = [self.orient1]
+				for orientation in self.orientations:
+					for i in range(len(orientation)):
+						for j in range(len(orientation[i])):
+							if orientation[i][j] is not None:
+								orientation[i][j].x = self.x + i
+								orientation[i][j].y = self.y + j
 			if letter == 'L':
 				self.orient1 = [[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)],[TetrisBoard.Tile(ORANGE),None,None]]
 				self.orient2 = [[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)],[None,TetrisBoard.Tile(ORANGE)],[None,TetrisBoard.Tile(ORANGE)]]
@@ -78,6 +95,12 @@ class TetrisBoard:
 				self.x = 3
 				self.y = 0
 				self.orientations = [self.orient1, self.orient2, self.orient3, self.orient4]
+				for orientation in self.orientations:
+					for i in range(len(orientation)):
+						for j in range(len(orientation[i])):
+							if orientation[i][j] is not None:
+								orientation[i][j].x = self.x + i
+								orientation[i][j].y = self.y + j
 			if letter == 'S':
 				self.orient1 = [[None,TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN)],[TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN),None]]
 				self.orient2 = [[TetrisBoard.Tile(GREEN),None],[TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN)],[None,TetrisBoard.Tile(GREEN)]]
@@ -85,6 +108,12 @@ class TetrisBoard:
 				self.x = 3
 				self.y = 0
 				self.orientations = [self.orient1, self.orient2]
+				for orientation in self.orientations:
+					for i in range(len(orientation)):
+						for j in range(len(orientation[i])):
+							if orientation[i][j] is not None:
+								orientation[i][j].x = self.x + i
+								orientation[i][j].y = self.y + j
 			if letter == 'T':
 				self.orient1 = [[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],[None,TetrisBoard.Tile(PURPLE),None]]
 				self.orient2 = [[None,TetrisBoard.Tile(PURPLE)],[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],[None,TetrisBoard.Tile(PURPLE)]]
@@ -94,6 +123,12 @@ class TetrisBoard:
 				self.x = 3
 				self.y = 0
 				self.orientations = [self.orient1, self.orient2, self.orient3, self.orient4]
+				for orientation in self.orientations:
+					for i in range(len(orientation)):
+						for j in range(len(orientation[i])):
+							if orientation[i][j] is not None:
+								orientation[i][j].x = self.x + i
+								orientation[i][j].y = self.y + j
 			if letter == 'Z':
 				self.orient1 = [[TetrisBoard.Tile(RED),TetrisBoard.Tile(RED),None],[None,TetrisBoard.Tile(RED),TetrisBoard.Tile(RED)]]
 				self.orient2 = [[None,TetrisBoard.Tile(RED)],[TetrisBoard.Tile(RED),TetrisBoard.Tile(RED)],[TetrisBoard.Tile(RED),None]]
@@ -101,28 +136,47 @@ class TetrisBoard:
 				self.x = 3
 				self.y = 0
 				self.orientations = [self.orient1, self.orient2]
-			def updatePosition(orientation,x,y):
-				self.orientation = orientation
+				for orientation in self.orientations:
+					for i in range(len(orientation)):
+						for j in range(len(orientation[i])):
+							if orientation[i][j] is not None:
+								orientation[i][j].x = self.x + i
+								orientation[i][j].y = self.y + j
+		def updatePosition(self,x,y):
+			if (self.x + x) >= 0 and (self.x+len(self.orientations[self.orientation]) + x) <=  10:
 				self.x = self.x + x
-				self.y = self.y + y
-				for row in self.orientations[self.orientation]:
-					for tile in row:
-						if tile is not None:
-							tile.x = self.x
-							tile.y = self.y
-		def drawTetrimino(self):
+			self.y = self.y + y
+			for orientation in self.orientations:
+				for i in range(len(orientation)):
+					for j in range(len(orientation[i])):
+						if orientation[i][j] is not None:
+							orientation[i][j].x = self.x + i 
+							orientation[i][j].y = self.y + j
+		def updateOrientation(self):
+			orientation = (self.orientation+1) % len(self.orientations)
+			if (self.x+len(self.orientations[orientation])) <= 10:
+				self.orientation = orientation
+			for orientation in self.orientations:
+				for i in range(len(orientation)):
+					for j in range(len(orientation[i])):
+						if orientation[i][j] is not None:
+							orientation[i][j].x = self.x + i 
+							orientation[i][j].y = self.y + j
+		def draw(self):
 			for row in self.orientations[self.orientation]:
 				for tile in row:
-				
+					if tile is not None:
+						tile.draw()
 	def __init__(self):
 		self.score = 0
-		self.tiles = [[TetrisBoard.Tile(WHITE, (screen_width/2-150+1)+(i*30), 10+1+(j*30)) for i in range(10)] for j in range(20)]
+		self.tetrimino = self.Tetrimino()
+		self.tiles = [[TetrisBoard.Tile(WHITE, i, j) for i in range(10)] for j in range(20)]
 	def drawTetris(self):
 		drawBoard(10,screen_width/2-150,20,10,30,BLACK)
 		for row in self.tiles:
 			for tile in row:
-				tile.drawTile()
-		
+				tile.draw()
+		self.tetrimino.draw()
 		
 
 # Loop until the user clicks the close button.
@@ -140,7 +194,15 @@ while not done:
 			print("User asked to quit.")
 			pygame.quit()
 		elif event.type == pygame.KEYDOWN:
-			print("User pressed a key.")
+			if event.key == pygame.K_LEFT:
+				Tetris.tetrimino.updatePosition( -1, 0)
+			elif event.key == pygame.K_RIGHT:
+				Tetris.tetrimino.updatePosition(1, 0)
+			elif event.key == pygame.K_UP:
+				Tetris.tetrimino.updateOrientation()
+			elif event.key == pygame.K_DOWN:
+				print("User pressed a key.")
+				Tetris.tetrimino.updatePosition(0, 1)
 		elif event.type == pygame.KEYUP:
 			print("User let go of a key.")
 		elif event.type == pygame.MOUSEBUTTONDOWN:
