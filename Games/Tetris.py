@@ -48,7 +48,11 @@ class TetrisBoard:
 			letter = letterList[random.randint(0,len(letterList)-1)]
 			if letter == 'I':
 				self.orient1 = [[TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN),TetrisBoard.Tile(CYAN)]]
-				self.orient2 = [[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)],[TetrisBoard.Tile(CYAN)]]
+				
+				self.orient2 = [[TetrisBoard.Tile(CYAN)],
+									[TetrisBoard.Tile(CYAN)],
+									[TetrisBoard.Tile(CYAN)],
+									[TetrisBoard.Tile(CYAN)]]
 				self.orientation = 0
 				self.x = 3
 				self.y = 0
@@ -60,10 +64,19 @@ class TetrisBoard:
 								orientation[i][j].x = self.x + i
 								orientation[i][j].y = self.y + j
 			if letter == 'J':
-				self.orient1 = [[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)],[None,None,TetrisBoard.Tile(BLUE)]]
-				self.orient2 = [[None, TetrisBoard.Tile(BLUE)],[None, TetrisBoard.Tile(BLUE)],[TetrisBoard.Tile(BLUE), TetrisBoard.Tile(BLUE)]]
-				self.orient3 = [[TetrisBoard.Tile(BLUE),None,None],[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)]]
-				self.orient4 = [[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)],[TetrisBoard.Tile(BLUE),None],[TetrisBoard.Tile(BLUE),None]]
+				self.orient1 = [[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)],
+									[None,None,TetrisBoard.Tile(BLUE)]]
+									
+				self.orient2 = [[None, TetrisBoard.Tile(BLUE)],
+									[None, TetrisBoard.Tile(BLUE)],
+									[TetrisBoard.Tile(BLUE), TetrisBoard.Tile(BLUE)]]
+									
+				self.orient3 = [[TetrisBoard.Tile(BLUE),None,None],
+									[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)]]
+									
+				self.orient4 = [[TetrisBoard.Tile(BLUE),TetrisBoard.Tile(BLUE)],
+									[TetrisBoard.Tile(BLUE),None],
+									[TetrisBoard.Tile(BLUE),None]]
 				self.orientation = 0
 				self.x = 3
 				self.y =0
@@ -75,7 +88,8 @@ class TetrisBoard:
 								orientation[i][j].x = self.x + i
 								orientation[i][j].y = self.y + j
 			if letter == 'O':
-				self.orient1 = [[TetrisBoard.Tile(YELLOW),TetrisBoard.Tile(YELLOW)],[TetrisBoard.Tile(YELLOW),TetrisBoard.Tile(YELLOW)]]
+				self.orient1 = [[TetrisBoard.Tile(YELLOW),TetrisBoard.Tile(YELLOW)],
+									[TetrisBoard.Tile(YELLOW),TetrisBoard.Tile(YELLOW)]]
 				self.orientation = 0
 				self.x = 3
 				self.y = 0
@@ -87,10 +101,19 @@ class TetrisBoard:
 								orientation[i][j].x = self.x + i
 								orientation[i][j].y = self.y + j
 			if letter == 'L':
-				self.orient1 = [[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)],[TetrisBoard.Tile(ORANGE),None,None]]
-				self.orient2 = [[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)],[None,TetrisBoard.Tile(ORANGE)],[None,TetrisBoard.Tile(ORANGE)]]
-				self.orient3 = [[None,None,TetrisBoard.Tile(ORANGE)],[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)]]
-				self.orient4 = [[TetrisBoard.Tile(ORANGE),None],[TetrisBoard.Tile(ORANGE),None],[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)]]
+				self.orient1 = [[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)],
+									[TetrisBoard.Tile(ORANGE),None,None]]
+								
+				self.orient2 = [[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)],
+									[None,TetrisBoard.Tile(ORANGE)],
+									[None,TetrisBoard.Tile(ORANGE)]]
+									
+				self.orient3 = [[None,None,TetrisBoard.Tile(ORANGE)],
+									[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)]]
+									
+				self.orient4 = [[TetrisBoard.Tile(ORANGE),None],
+									[TetrisBoard.Tile(ORANGE),None],
+									[TetrisBoard.Tile(ORANGE),TetrisBoard.Tile(ORANGE)]]
 				self.orientation = 0
 				self.x = 3
 				self.y = 0
@@ -102,8 +125,12 @@ class TetrisBoard:
 								orientation[i][j].x = self.x + i
 								orientation[i][j].y = self.y + j
 			if letter == 'S':
-				self.orient1 = [[None,TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN)],[TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN),None]]
-				self.orient2 = [[TetrisBoard.Tile(GREEN),None],[TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN)],[None,TetrisBoard.Tile(GREEN)]]
+				self.orient1 = [[None,TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN)],
+									[TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN),None]]
+									
+				self.orient2 = [[TetrisBoard.Tile(GREEN),None],
+									[TetrisBoard.Tile(GREEN),TetrisBoard.Tile(GREEN)],
+									[None,TetrisBoard.Tile(GREEN)]]
 				self.orientation = 0
 				self.x = 3
 				self.y = 0
@@ -115,10 +142,19 @@ class TetrisBoard:
 								orientation[i][j].x = self.x + i
 								orientation[i][j].y = self.y + j
 			if letter == 'T':
-				self.orient1 = [[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],[None,TetrisBoard.Tile(PURPLE),None]]
-				self.orient2 = [[None,TetrisBoard.Tile(PURPLE)],[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],[None,TetrisBoard.Tile(PURPLE)]]
-				self.orient3 = [[None,TetrisBoard.Tile(PURPLE),None],[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)]]
-				self.orient4 = [[TetrisBoard.Tile(PURPLE),None],[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],[TetrisBoard.Tile(PURPLE),None]]
+				self.orient1 = [[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],
+									[None,TetrisBoard.Tile(PURPLE),None]]
+									
+				self.orient2 = [[None,TetrisBoard.Tile(PURPLE)],
+									[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],
+									[None,TetrisBoard.Tile(PURPLE)]]
+									
+				self.orient3 = [[None,TetrisBoard.Tile(PURPLE),None],
+									[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)]]
+									
+				self.orient4 = [[TetrisBoard.Tile(PURPLE),None],
+									[TetrisBoard.Tile(PURPLE),TetrisBoard.Tile(PURPLE)],
+									[TetrisBoard.Tile(PURPLE),None]]
 				self.orientation = 0
 				self.x = 3
 				self.y = 0
@@ -130,8 +166,11 @@ class TetrisBoard:
 								orientation[i][j].x = self.x + i
 								orientation[i][j].y = self.y + j
 			if letter == 'Z':
-				self.orient1 = [[TetrisBoard.Tile(RED),TetrisBoard.Tile(RED),None],[None,TetrisBoard.Tile(RED),TetrisBoard.Tile(RED)]]
-				self.orient2 = [[None,TetrisBoard.Tile(RED)],[TetrisBoard.Tile(RED),TetrisBoard.Tile(RED)],[TetrisBoard.Tile(RED),None]]
+				self.orient1 = [[TetrisBoard.Tile(RED),TetrisBoard.Tile(RED),None],
+									[None,TetrisBoard.Tile(RED),TetrisBoard.Tile(RED)]]
+				self.orient2 = [[None,TetrisBoard.Tile(RED)],
+									[TetrisBoard.Tile(RED),TetrisBoard.Tile(RED)],
+									[TetrisBoard.Tile(RED),None]]
 				self.orientation = 0
 				self.x = 3
 				self.y = 0
@@ -171,6 +210,24 @@ class TetrisBoard:
 		self.score = 0
 		self.tetrimino = self.Tetrimino()
 		self.tiles = [[TetrisBoard.Tile(WHITE, i, j) for i in range(10)] for j in range(20)]
+	def hasHit(self):
+		for tile in self.tetrimino.orientations[self.tetrimino.orientation]:
+			if tile is not None:
+				if tile.y == 20:
+					return True
+				else:
+					print(len(self.tetrimino.orientations[self.tetrimino.orientation][-1]))
+					for next in range(tile.x, tile.x + len(self.tetrimino.orientations[self.tetrimino.orientation])):
+						if self.tiles[tile.y+1][next] is not None:
+							if self.tiles[tile.y+1][next].color is not WHITE:
+								return True
+		return False
+	def updateBoard(self):
+		if self.hasHit():
+			for i in range(len(self.tetrimino.orientations[tetrimino.orientation])):
+				for j in range(len(self.tetrimino.orientations[tetrimino.orientation][i])):
+					self.tiles[i][j] = self.tetrimino.orientations[tetrimino.orientation][i][j]
+			self.tetrimino = self.Tetrimino()
 	def drawTetris(self):
 		drawBoard(10,screen_width/2-150,20,10,30,BLACK)
 		for row in self.tiles:
@@ -209,7 +266,7 @@ while not done:
 			print("User pressed a mouse button")
 
 	# --- Game logic should go here
-
+	Tetris.updateBoard()
 	# --- Drawing code should go here
 	# First, clear the screen to white. Don't put other drawing commands
 	# above this, or they will be erased with this command.
