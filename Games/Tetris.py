@@ -36,10 +36,11 @@ def drawBoard(top,left,height,width,s,color):
 	
 class TetrisBoard:
 	class Tile:
-		def __init__(self, color, x = None, y = None):
+		def __init__(self, color, x = None, y = None, placed = False):
 			self.color = color
 			self.x = x
 			self.y = y
+			self.placed = placed
 		def draw(self):
 			pygame.draw.rect(screen,self.color,[(screen_width/2-150+1)+(self.x*30),10+1+(self.y*30),28,28])
 	class Tetrimino:
@@ -211,23 +212,43 @@ class TetrisBoard:
 		self.tetrimino = self.Tetrimino()
 		self.tiles = [[TetrisBoard.Tile(WHITE, i, j) for i in range(10)] for j in range(20)]
 	def hasHit(self):
-		for tile in self.tetrimino.orientations[self.tetrimino.orientation]:
+		piece = self.tetrimino.orientations[self.tetrimino.orientation]
+		for i in range(len(piece)):
+			tile = piece[i][-1]
 			if tile is not None:
-				if tile.y == 20:
+				if tile.y == 19:
 					return True
-				else:
-					print(len(self.tetrimino.orientations[self.tetrimino.orientation][-1]))
-					for next in range(tile.x, tile.x + len(self.tetrimino.orientations[self.tetrimino.orientation])):
-						if self.tiles[tile.y+1][next] is not None:
-							if self.tiles[tile.y+1][next].color is not WHITE:
-								return True
+		for i in range(len(piece)):
+			for j in range(len(piece[i])):
+				if piece[i][j] is not None:
+					if self.tiles[self.tetrimino.y + j + 1][self.tetrimino.x + i] is not None:
+						if self.tiles[self.tetrimino.y + j + 1][self.tetrimino.x + i].placed:
+							return True
 		return False
+	def checkTetris(self):
+		for j in range(20):
+			sum = 0
+			for i in range(10):
+				if self.tiles[j][i].placed:
+					sum += 1
+			if sum == 10:
+				return j
+		return -1
 	def updateBoard(self):
 		if self.hasHit():
-			for i in range(len(self.tetrimino.orientations[tetrimino.orientation])):
-				for j in range(len(self.tetrimino.orientations[tetrimino.orientation][i])):
-					self.tiles[i][j] = self.tetrimino.orientations[tetrimino.orientation][i][j]
+			print('hit')
+			piece = self.tetrimino.orientations[self.tetrimino.orientation]
+			for i in range(len(piece)):
+				for j in range(len(piece[i])):
+					if piece[i][j] is not None:
+						self.tiles[self.tetrimino.y + j][self.tetrimino.x + i] = self.Tile(piece[i][j].color, self.tetrimino.x + i, self.tetrimino.y + j, True)
 			self.tetrimino = self.Tetrimino()
+		if self.checkTetris() != -1:
+			row = self.checkTetris()
+			for j in range(row, 0, -1):
+				for i in range(10):
+					if self.tiles[j][i].placed:
+						self.tiles[j][i] = self.tiles[j - 1][i]
 	def drawTetris(self):
 		drawBoard(10,screen_width/2-150,20,10,30,BLACK)
 		for row in self.tiles:
@@ -241,6 +262,8 @@ done = False
  
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
+
+tickNumber = 0
  
 Tetris = TetrisBoard()
 # -------- Main Program Loop -----------
@@ -258,12 +281,10 @@ while not done:
 			elif event.key == pygame.K_UP:
 				Tetris.tetrimino.updateOrientation()
 			elif event.key == pygame.K_DOWN:
-				print("User pressed a key.")
 				Tetris.tetrimino.updatePosition(0, 1)
-		elif event.type == pygame.KEYUP:
-			print("User let go of a key.")
 		elif event.type == pygame.MOUSEBUTTONDOWN:
-			print("User pressed a mouse button")
+			print(Tetris.tetrimino.orientations[Tetris.tetrimino.orientation][0][0].x)
+			print(Tetris.tetrimino.orientations[Tetris.tetrimino.orientation][0][0].y)
 
 	# --- Game logic should go here
 	Tetris.updateBoard()
@@ -276,6 +297,8 @@ while not done:
 
 	# --- Go ahead and update the screen with what we've drawn.
 	pygame.display.flip()
-
+	tickNumber += 1
+	if tickNumber % 40 == 0:
+		Tetris.tetrimino.updatePosition(0, 1)
 	# --- Limit to 60 frames per second
 	clock.tick(60)
