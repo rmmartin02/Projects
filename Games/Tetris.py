@@ -2,6 +2,8 @@ import pygame
 import random
 pygame.init()
 
+font = pygame.font.Font(None, 40)
+
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 GREEN = (0,255,0)
@@ -182,26 +184,6 @@ class TetrisBoard:
 							if orientation[i][j] is not None:
 								orientation[i][j].x = self.x + i
 								orientation[i][j].y = self.y + j
-		def updatePosition(self,x,y):
-			if (self.x + x) >= 0 and (self.x+len(self.orientations[self.orientation]) + x) <=  10:
-				self.x = self.x + x
-			self.y = self.y + y
-			for orientation in self.orientations:
-				for i in range(len(orientation)):
-					for j in range(len(orientation[i])):
-						if orientation[i][j] is not None:
-							orientation[i][j].x = self.x + i 
-							orientation[i][j].y = self.y + j
-		def updateOrientation(self):
-			orientation = (self.orientation+1) % len(self.orientations)
-			if (self.x+len(self.orientations[orientation])) <= 10:
-				self.orientation = orientation
-			for orientation in self.orientations:
-				for i in range(len(orientation)):
-					for j in range(len(orientation[i])):
-						if orientation[i][j] is not None:
-							orientation[i][j].x = self.x + i 
-							orientation[i][j].y = self.y + j
 		def draw(self):
 			for row in self.orientations[self.orientation]:
 				for tile in row:
@@ -221,10 +203,69 @@ class TetrisBoard:
 		for i in range(len(piece)):
 			for j in range(len(piece[i])):
 				if piece[i][j] is not None:
-					if self.tiles[self.tetrimino.y + j + 1][self.tetrimino.x + i] is not None:
-						if self.tiles[self.tetrimino.y + j + 1][self.tetrimino.x + i].placed:
-							return True
+					if self.tetrimino.y + j + 1 < 20:
+						if self.tiles[self.tetrimino.y + j + 1][self.tetrimino.x + i] is not None:
+							if self.tiles[self.tetrimino.y + j + 1][self.tetrimino.x + i].placed:
+								return True
 		return False
+	def updatePosition(self,x,y):
+			piece  = self.tetrimino.orientations[self.tetrimino.orientation]
+			canMove = True
+			if (self.tetrimino.x + x) >= 0 and (self.tetrimino.x+len(piece) + x) <=  10:
+				if x<0:
+					for i in range(len(piece)):
+						for j in range(len(piece[i])):
+							if piece[i][j] is not None:
+								if self.tiles[piece[i][j].y][piece[i][j].x-1] is not None:
+									if self.tiles[piece[i][j].y][piece[i][j].x-1].placed:
+										canMove = False
+				if x>0:
+					for i in range(len(piece)):
+						for j in range(len(piece[i])):
+							if piece[i][j] is not None:
+								if self.tiles[piece[i][j].y][piece[i][j].x+1] is not None:
+									if self.tiles[piece[i][j].y][piece[i][j].x+1].placed:
+										canMove = False
+				if canMove:
+					self.tetrimino.x = self.tetrimino.x + x
+			self.tetrimino.y = self.tetrimino.y + y
+			for orientation in self.tetrimino.orientations:
+				for i in range(len(orientation)):
+					for j in range(len(orientation[i])):
+						if orientation[i][j] is not None:
+							orientation[i][j].x = self.tetrimino.x + i 
+							orientation[i][j].y = self.tetrimino.y + j
+	def updateOrientation(self):
+		original = self.tetrimino.orientation
+		new = (self.tetrimino.orientation+1) % len(self.tetrimino.orientations)
+		self.tetrimino.orientation = new
+		for orientation in self.tetrimino.orientations:
+			for i in range(len(orientation)):
+				for j in range(len(orientation[i])):
+					if orientation[i][j] is not None:
+						orientation[i][j].x = self.tetrimino.x + i 
+						orientation[i][j].y = self.tetrimino.y + j
+		if (self.tetrimino.x+len(self.tetrimino.orientations[new])) > 10:
+			self.tetrimino.orientation = original
+			for orientation in self.tetrimino.orientations:
+				for i in range(len(orientation)):
+					for j in range(len(orientation[i])):
+						if orientation[i][j] is not None:
+							orientation[i][j].x = self.tetrimino.x + i 
+							orientation[i][j].y = self.tetrimino.y + j
+		else:
+			for i in range(len(self.tetrimino.orientations[new])):
+				for j in range(len(self.tetrimino.orientations[new][i])):
+					if self.tetrimino.orientations[new][i][j] is not None:
+						if self.tiles[self.tetrimino.orientations[new][i][j].y][self.tetrimino.orientations[new][i][j].x] is not None:
+							if self.tiles[self.tetrimino.orientations[new][i][j].y][self.tetrimino.orientations[new][i][j].x].placed:
+								self.tetrimino.orientation = original
+								for orientation in self.tetrimino.orientations:
+									for i in range(len(orientation)):
+										for j in range(len(orientation[i])):
+											if orientation[i][j] is not None:
+												orientation[i][j].x = self.tetrimino.x + i 
+												orientation[i][j].y = self.tetrimino.y + j
 	def checkTetris(self):
 		for j in range(20):
 			sum = 0
@@ -234,6 +275,11 @@ class TetrisBoard:
 			if sum == 10:
 				return j
 		return -1
+	def checkLose(self):
+		for i in range(10):
+			if self.tiles[1][i].placed:
+				return True
+		return False
 	def updateBoard(self):
 		if self.hasHit():
 			print('hit')
@@ -246,59 +292,77 @@ class TetrisBoard:
 		if self.checkTetris() != -1:
 			row = self.checkTetris()
 			for j in range(row, 0, -1):
+				print(j)
 				for i in range(10):
-					if self.tiles[j][i].placed:
-						self.tiles[j][i] = self.tiles[j - 1][i]
+					print(self.tiles[j][i].x)
+					self.tiles[j][i].color = self.tiles[j - 1][i].color
+					self.tiles[j][i].placed = self.tiles[j-1][i].placed
+			return 1
+	def updateScore(self, add):
+		self.score += add
 	def drawTetris(self):
 		drawBoard(10,screen_width/2-150,20,10,30,BLACK)
 		for row in self.tiles:
 			for tile in row:
 				tile.draw()
 		self.tetrimino.draw()
-		
+		ren = font.render(str(self.score), True, WHITE)
+		screen.blit(ren, (40,30))
 
 # Loop until the user clicks the close button.
-done = False
- 
-# Used to manage how fast the screen updates
-clock = pygame.time.Clock()
+def main():
+	done = False
+	 
+	# Used to manage how fast the screen updates
+	clock = pygame.time.Clock()
 
-tickNumber = 0
- 
-Tetris = TetrisBoard()
-# -------- Main Program Loop -----------
-while not done:
-	# --- Main event loop
-	for event in pygame.event.get(): # User did something
-		if event.type == pygame.QUIT:
-			print("User asked to quit.")
-			pygame.quit()
-		elif event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_LEFT:
-				Tetris.tetrimino.updatePosition( -1, 0)
-			elif event.key == pygame.K_RIGHT:
-				Tetris.tetrimino.updatePosition(1, 0)
-			elif event.key == pygame.K_UP:
-				Tetris.tetrimino.updateOrientation()
-			elif event.key == pygame.K_DOWN:
-				Tetris.tetrimino.updatePosition(0, 1)
-		elif event.type == pygame.MOUSEBUTTONDOWN:
-			print(Tetris.tetrimino.orientations[Tetris.tetrimino.orientation][0][0].x)
-			print(Tetris.tetrimino.orientations[Tetris.tetrimino.orientation][0][0].y)
+	tickNumber = 0
+	 
+	Tetris = TetrisBoard()
 
-	# --- Game logic should go here
-	Tetris.updateBoard()
-	# --- Drawing code should go here
-	# First, clear the screen to white. Don't put other drawing commands
-	# above this, or they will be erased with this command.
-	screen.fill(BLACK)
-	drawBoard(10,screen_width/2-150,20,10,30,WHITE)
-	Tetris.drawTetris()
+	bonus = 0
+	# -------- Main Program Loop -----------
+	while not done:
+		# --- Main event loop
+		for event in pygame.event.get(): # User did something
+			if event.type == pygame.QUIT:
+				print("User asked to quit.")
+				pygame.quit()
+			elif event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_LEFT:
+					Tetris.updatePosition( -1, 0)
+				elif event.key == pygame.K_RIGHT:
+					Tetris.updatePosition(1, 0)
+				elif event.key == pygame.K_UP:
+					Tetris.updateOrientation()
+				elif event.key == pygame.K_DOWN:
+					Tetris.updatePosition(0, 1)
 
-	# --- Go ahead and update the screen with what we've drawn.
-	pygame.display.flip()
-	tickNumber += 1
-	if tickNumber % 40 == 0:
-		Tetris.tetrimino.updatePosition(0, 1)
-	# --- Limit to 60 frames per second
-	clock.tick(60)
+		# --- Game logic should go here
+		scored = Tetris.updateBoard()
+		if scored == 1:
+			Tetris.updateScore(100)
+			bonus += 1
+		else:
+			bonus = 0
+		if bonus == 4:
+			Tetris.updateScore(400)
+		if Tetris.checkLose():
+			done = True
+		# --- Drawing code should go here
+		# First, clear the screen to white. Don't put other drawing commands
+		# above this, or they will be erased with this command.
+		screen.fill(BLACK)
+		drawBoard(10,screen_width/2-150,20,10,30,WHITE)
+		Tetris.drawTetris()
+
+		# --- Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+		tickNumber += 1
+		if tickNumber % 40 == 0:
+			Tetris.updatePosition(0, 1)
+		# --- Limit to 60 frames per second
+		clock.tick(60)
+if __name__ == '__main__':
+	while True:
+		main()
